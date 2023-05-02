@@ -47,4 +47,4 @@ df['address'] = adr
 df['templeId'] = df['templeId'].astype('str')
 df['address'] = df['address'].astype('str')
 df = df[['templeId', 'address']]
-df.to_csv('temples.csv', sep='\t')
+df.to_csv('temples.csv', sep=',')
