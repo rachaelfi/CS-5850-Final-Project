@@ -1,5 +1,6 @@
 import requests as rq
 import json
+import pandas as pd
 
 
 # This takes a minute to run
@@ -24,7 +25,7 @@ for temple in subAsJson:
 detailsURL = "https://www.churchofjesuschrist.org/temples/details/"
 langHeader = "?lang=eng"
 
-templesWithAddresses = {}
+adr = []
 
 for templeId in utahTemples:
     detailsURLComplete = detailsURL + templeId + langHeader
@@ -32,8 +33,18 @@ for templeId in utahTemples:
     res = str(res.content)
     res = res[res.find('"details"'):]
     res = "{" + res[:res.find(',"mapText"')] + "}]}"
-    print('"' + templeId + '": ' + res)
-    templesWithAddresses[templeId] = res
 
+    resJson = json.loads(res)
+    resJson = resJson['details'][0]
+    print(resJson)
+    adr.append(resJson['addLine1'] + " " + resJson['addLine2'] + " " + resJson['addLine3'])
 
-print(templesWithAddresses)
+df = pd.DataFrame()
+
+df['templeId'] = utahTemples
+df['address'] = adr
+
+df['templeId'] = df['templeId'].astype('str')
+df['address'] = df['address'].astype('str')
+df = df[['templeId', 'address']]
+df.to_csv('temples.csv', sep='\t')
