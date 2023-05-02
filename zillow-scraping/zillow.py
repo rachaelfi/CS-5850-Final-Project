@@ -31,28 +31,30 @@ with requests.Session() as session:
     # soup4 = BeautifulSoup(response.content, 'html.parser')
     df = pd.DataFrame()
     df1 = pd.DataFrame()
-    for i in soup:
-        address = soup.find_all ('address', {'data-test':'property-card-addr'})
-        price = soup.find_all('span', {'data-test':'property-card-price'})
-        seller = soup.find_all('div', {'class':'cWiizR'})
 
-        adr=[]
-        pr=[]
-        sl=[]
-        for result in address:
-            adr.append(result.text)
-        for result in price:
-            pr.append(result.text)
-        for result in seller:
-            sl.append(result.text)
-        
-        df['seller'] = sl
-        df['address'] = adr
-        df['prices'] = pr
-        
-        df['seller'] = df['seller'].astype('str')
-        df['prices'] = df['prices'].astype('str')
-        df['address'] = df['address'].astype('str')
+    address = soup.find_all ('address', {'data-test':'property-card-addr'})
+    price = soup.find_all('span', {'data-test':'property-card-price'})
+    seller = soup.find_all('div', {'class':'cWiizR'})
 
-        df = df[['prices', 'address', 'seller']]
-        print(df)
+    adr=[]
+    pr=[]
+    sl=[]
+    for result in address:
+        adr.append(result.text)
+    for result in price:
+        pr.append(result.text)
+    for result in seller:
+        sl.append(result.text)
+    
+    df['seller'] = sl
+    df['address'] = adr
+    df['prices'] = pr
+    
+    df['seller'] = df['seller'].astype('str')
+    df['prices'] = df['prices'].astype('str')
+    df['address'] = df['address'].astype('str')
+
+    df = df[['prices', 'address', 'seller']]
+    print(df)
+    df.to_csv('zillow.csv', sep='\t')
+
