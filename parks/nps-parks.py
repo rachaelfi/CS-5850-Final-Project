@@ -1,5 +1,6 @@
 import requests as rq
 import json
+import pandas as pd
 
 
 state = "ut"
@@ -20,4 +21,11 @@ for park in data:
     plat.append(park['latitude'])
     plng.append(park['longitude'])
 
-print(plat)
+df = pd.DataFrame()
+df['name'] = pname
+df['latitude'] = plat
+df['longitude'] = plng
+
+df = df[['name','latitude', 'longitude']]
+
+df.to_csv('nps-parks.csv', sep=',')
