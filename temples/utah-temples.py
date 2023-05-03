@@ -43,8 +43,10 @@ df = pd.DataFrame()
 
 df['templeId'] = utahTemples
 df['address'] = adr
+df['latitude'] = ''
+df['longitude'] = ''
 
 df['templeId'] = df['templeId'].astype('str')
 df['address'] = df['address'].astype('str')
-df = df[['templeId', 'address']]
+df = df[['templeId', 'address', 'latitude', 'longitude ']]
 df.to_csv('temples.csv', sep=',')
